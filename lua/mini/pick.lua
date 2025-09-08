@@ -3415,6 +3415,13 @@ H.grep_get_command = function(tool, pattern, globs)
     local res = {
       'rg', '--column', '--line-number', '--no-heading', '--field-match-separator', '\\x00', '--color=never'
     }
+    
+    if vim.o.smartcase then
+      table.insert(res, '--smart-case')
+    elseif vim.o.ignorecase then 
+      table.insert(res, '--ignore-case')
+    end
+
     for _, g in ipairs(globs) do
       table.insert(res, '--glob')
       -- NOTE: no `*` as default is important to not "override" ignoring files
